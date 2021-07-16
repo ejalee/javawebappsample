@@ -9,7 +9,12 @@ def getFtpPublishProfile(def publishProfilesJson) {
 
 node {
   withEnv(['AZURE_SUBSCRIPTION_ID=1667381d-56e2-45f5-ac37-0870394e4035',
-        'AZURE_TENANT_ID=c61dbbd0-0f96-4a10-882e-e178f1a6e278']) {
+        'AZURE_TENANT_ID=c61dbbd0-0f96-4a10-882e-e178f1a6e278',
+           'AZURE_CLIENT_SECRET=SroN3CmER4ZFB_4LHKcg4b45Gl86Sxmk__',
+           'AZURE_CLIENT_ID=93c9e86f-bbf7-4bd0-b100-35f34a62ebb6',
+           'AZURE_TENANT_ID=c61dbbd0-0f96-4a10-882e-e178f1a6e278'
+          
+          ]) {
     stage('init') {
       checkout scm
     }
@@ -23,17 +28,9 @@ node {
       def webAppName = 'ejaleeJenkinsApp'
       
       // login Azure
-//       withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-//        sh '''
-//           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
-//           az account set -s $AZURE_SUBSCRIPTION_ID
-//         '''
-//       }
-      
-      
-      withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6')]) {
+      withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
        sh '''
-          az login --service-principal -u 93c9e86f-bbf7-4bd0-b100-35f34a62ebb6 -p SroN3CmER4ZFB_4LHKcg4b45Gl86Sxmk__ -t c61dbbd0-0f96-4a10-882e-e178f1a6e278
+          az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
         '''
       }
