@@ -21,13 +21,19 @@ node {
     stage('deploy') {
       def resourceGroup = 'QuickstartJenkins-rg'
       def webAppName = 'ejaleeJenkinsApp'
+      
       // login Azure
-      withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-       sh '''
-          az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
-          az account set -s $AZURE_SUBSCRIPTION_ID
-        '''
+//       withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+//        sh '''
+//           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
+//           az account set -s $AZURE_SUBSCRIPTION_ID
+//         '''
+//       }
+      
+      withCredentials([azureServicePrincipal('816495a8-0c6b-48a0-8069-c543aa503bc6')]) {
+        sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
       }
+      
       // get publish settings
       def pubProfilesJson = sh script: "az webapp deployment list-publishing-profiles -g $resourceGroup -n $webAppName", returnStdout: true
       def ftpProfile = getFtpPublishProfile pubProfilesJson
