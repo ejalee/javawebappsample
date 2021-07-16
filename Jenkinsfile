@@ -30,16 +30,13 @@ node {
 //         '''
 //       }
       
-        withCredentials([azureServicePrincipal('credentials_id')]) {
-          sh 'az login --service-principal -u 93c9e86f-bbf7-4bd0-b100-35f34a62ebb6 -p SroN3CmER4ZFB_4LHKcg4b45Gl86Sxmk__ -t c61dbbd0-0f96-4a10-882e-e178f1a6e278
-        }
       
-//       withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
-//        sh '''
-//           az login --service-principal -u 93c9e86f-bbf7-4bd0-b100-35f34a62ebb6 -p SroN3CmER4ZFB_4LHKcg4b45Gl86Sxmk__ -t c61dbbd0-0f96-4a10-882e-e178f1a6e278
-//           az account set -s $AZURE_SUBSCRIPTION_ID
-//         '''
-//       }
+      withCredentials([usernamePassword(credentialsId: '816495a8-0c6b-48a0-8069-c543aa503bc6')]) {
+       sh '''
+          az login --service-principal -u 93c9e86f-bbf7-4bd0-b100-35f34a62ebb6 -p SroN3CmER4ZFB_4LHKcg4b45Gl86Sxmk__ -t c61dbbd0-0f96-4a10-882e-e178f1a6e278
+          az account set -s $AZURE_SUBSCRIPTION_ID
+        '''
+      }
       
       // get publish settings
       def pubProfilesJson = sh script: "az webapp deployment list-publishing-profiles -g $resourceGroup -n $webAppName", returnStdout: true
