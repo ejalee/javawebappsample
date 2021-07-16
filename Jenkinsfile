@@ -28,7 +28,7 @@ node {
       def webAppName = 'ejaleeJenkinsApp'
       
       // login Azure
-      withCredentials([usernamePassword(credentialsId: '60896e1b-0dec-4160-be4b-a4e45d9f13e4', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
+      withCredentials([usernamePassword(credentialsId: '88a1e8ef-e386-4b1f-b6a0-f4c9706fd40d', passwordVariable: 'AZURE_CLIENT_SECRET', usernameVariable: 'AZURE_CLIENT_ID')]) {
        sh '''
           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
           az account set -s $AZURE_SUBSCRIPTION_ID
